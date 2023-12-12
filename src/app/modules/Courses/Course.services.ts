@@ -7,12 +7,12 @@ const createCourseIntoDB = async (payload: TCourse) => {
 };
 
 const getAllCourseFromDB = async () => {
-  const result = await Courses.find();
+  const result = await Courses.find().populate('categoryId');
   return result;
 };
 
 const getSingleCourseFromDB = async (id: string) => {
-  const result = await Courses.findById(id);
+  const result = await Courses.findById(id).populate('categoryId');
   return result;
 };
 

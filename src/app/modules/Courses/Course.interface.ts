@@ -1,4 +1,4 @@
-import { Model } from "mongoose";
+import { Model, Types } from "mongoose";
 
 export type TTag= {
   name: string;
@@ -13,7 +13,7 @@ export type TCourseDetails ={
 export type TCourse = {
   title: string;
   instructor: string;
-  categoryId: string;
+  categoryId: Types.ObjectId;
   price: number;
   tags: TTag[];
   startDate: string;

@@ -19,7 +19,7 @@ const courseDetailsSchema = new Schema<TCourseDetails>({
 const courseSchema = new Schema<TCourse>({
   title: { type: String, required: true, unique: true },
   instructor: { type: String, required: true },
-  categoryId: { type: String, required: true },
+  categoryId: { type: Schema.Types.ObjectId, ref: 'Categorys' },
   price: { type: Number, required: true },
   tags: [{ type: courseTagSchema, required: true }],
   startDate: { type: String, required: true },
