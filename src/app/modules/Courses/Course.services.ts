@@ -16,8 +16,45 @@ const getSingleCourseFromDB = async (id: string) => {
   return result;
 };
 
+const updateCourseFromDB = async (
+  payload: Partial<TCourse>,
+  courseId: string,
+) => {
+  const { tags, details, ...remainingCourseData } = payload;
+
+  const modifiedUpdatedData: Record<string, unknown> = {
+    ...remainingCourseData,
+  };
+
+  if (details && Object.keys(details).length) {
+    for (const [key, value] of Object.entries(details)) {
+      modifiedUpdatedData[`details.${key}`] = value;
+    }
+  }
+
+  if (tags && tags.length) {
+    tags.forEach((tag, index) => {
+      for (const [key, value] of Object.entries(tag)) {
+        modifiedUpdatedData[`tags.${index}.${key}`] = value;
+      }
+    });
+  }
+
+  const result = await Courses.findByIdAndUpdate(
+    courseId,
+    modifiedUpdatedData,
+    {
+      new: true,
+      runValidators: true,
+    },
+  );
+  return result;
+};
+
 export const courseServices = {
   createCourseIntoDB,
   getAllCourseFromDB,
-  getSingleCourseFromDB
+  getSingleCourseFromDB,
+  updateCourseFromDB
+
 }

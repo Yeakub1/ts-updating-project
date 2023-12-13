@@ -4,7 +4,7 @@ import { Schema, model } from 'mongoose';
 const reviewSchema = new Schema<TReview>(
   {
     courseId: { type: Schema.Types.ObjectId, ref: 'Courses' },
-    rating: { type: Number, required: true },
+    rating: { type: Number, enum: [1, 2, 3, 4, 5], required: true },
     review: { type: String, required: true },
   },
   {
