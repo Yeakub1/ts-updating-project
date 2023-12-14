@@ -10,12 +10,14 @@ router.post(
   validateRequest(courseValidation.createcourseValidationSchema),
   courseControllers.createCourse,
 );
-router.get('/:courseId', courseControllers.getSingleCourse);
-router.patch(
+router.put(
   '/:courseId',
   validateRequest(courseValidation.updatecourseValidationSchema),
   courseControllers.updateCourse,
 );
-router.get('/', courseControllers.getAllCourse);
+router.get('/', courseControllers.allCourseFiltaring);
+router.get('/:courseId', courseControllers.getSingleCourse);
+router.get('/:courseId/reviews', courseControllers.getSingleCourseReview);
+router.get('/best', courseControllers.getBestCourse);
 
 export const courseRoute = router;

@@ -10,7 +10,7 @@ router.post(
   validateRequest(reviewValidation.createReviewVlidationSchema),
   reviewControllers.createReview,
 );
-router.get('/:reviewId', reviewControllers.getSingleReview);
+
 router.get('/', reviewControllers.getAllReview);
 
 export const ReviewRoute = router;

@@ -14,13 +14,13 @@ const createCourse = catchAsync(async (req, res) => {
 });
 
 
-const getAllCourse = catchAsync(async (req, res) => {
-  const result = await courseServices.getAllCourseFromDB();
-
+const allCourseFiltaring = catchAsync(async (req, res) => {
+  const allQuery = req.query;
+  const result = await courseServices.getAllCourseFromDB(allQuery);
   sendResponse(res, {
-    statusCode: httpStatus.OK,
     success: true,
-    message: 'Category are retrieved successfully',
+    statusCode: httpStatus.OK,
+    message: 'Courses is fetched succesfully',
     data: result,
   });
 });
@@ -37,10 +37,12 @@ const getSingleCourse = catchAsync(async (req, res) => {
   });
 });
 
+
 const updateCourse = catchAsync(async (req, res) => {
   const courseId = req.params.courseId;
   const updateData = req.body;
   const result = await courseServices.updateCourseFromDB(updateData, courseId);
+
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
@@ -49,10 +51,35 @@ const updateCourse = catchAsync(async (req, res) => {
   });
 });
 
+const getSingleCourseReview = catchAsync(async (req, res) => {
+  const courseId = req.params.courseId;
+  const result = await courseServices.getSingleCourseReviewFromDb(courseId);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Course and Reviews retrieved successfully',
+    data: result,
+  });
+});
+
+const getBestCourse = catchAsync(async (req, res) => {
+  const result = await courseServices.getBestCourseFormDb();
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Best Course Retrived Successfully',
+    data: result,
+  });
+});
+
 
 export const courseControllers = {
   createCourse,
-  getAllCourse,
+  allCourseFiltaring,
   getSingleCourse,
-  updateCourse
+  updateCourse,
+  getSingleCourseReview,
+  getBestCourse,
 };

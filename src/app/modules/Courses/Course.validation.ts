@@ -50,7 +50,7 @@ export const updatecourseValidationSchema = z.object({
     language: z.string({ required_error: 'language is required.' }).optional(),
     provider: z.string({ required_error: 'provider is required.' }).optional(),
     durationInWeeks: z.number().optional(),
-    details: courseDetailsValidationUpdateSchema,
+    details: courseDetailsValidationUpdateSchema.optional(),
   }),
 });
 

@@ -11,25 +11,54 @@ const courseTagSchema = new Schema<TTag>({
 });
 
 const courseDetailsSchema = new Schema<TCourseDetails>({
-  level: { type: String, required: [true, 'Level is Required'] },
+  level: {
+    type: String,
+    enum: ['Beginner', 'Intermediate', 'Advanced'],
+    required: true,
+  },
   description: { type: String, required: [true, 'description is Required'] },
 });
 
 
-const courseSchema = new Schema<TCourse>({
-  title: { type: String, required: true, unique: true },
-  instructor: { type: String, required: true },
-  categoryId: { type: Schema.Types.ObjectId, ref: 'Categorys' },
-  price: { type: Number, required: true },
-  tags: [{ type: courseTagSchema, required: true }],
-  startDate: { type: String, required: true },
-  endDate: { type: String, required: true },
-  language: { type: String, required: true },
-  provider: { type: String, required: true },
-  durationInWeeks: { type: Number },
-  details: { type: courseDetailsSchema, required: true },
+const courseSchema = new Schema<TCourse>(
+  {
+    title: { type: String, required: true, unique: true },
+    instructor: { type: String, required: true },
+    categoryId: { type: Schema.Types.ObjectId, ref: 'Categorys' },
+    price: { type: Number, required: true },
+    tags: [{ type: courseTagSchema, required: true }],
+    startDate: { type: String, required: true },
+    endDate: { type: String, required: true },
+    language: { type: String, required: true },
+    provider: { type: String, required: true },
+    durationInWeeks: { type: Number },
+    details: { type: courseDetailsSchema, required: true },
+  },
+  {
+    toJSON: {
+      virtuals: true,
+    },
+  },
+);
+
+courseSchema.virtual('reviews', {
+  ref: 'reviews',
+  localField: '_id',
+  foreignField: 'courseId',
+  justOne: false,
 });
 
-export const Courses = model<TCourse, courseModle>('Courses', courseSchema);
+courseSchema.pre('save', function (next) {
+  if (!this.durationInWeeks) {
+    const startDate = new Date(this.startDate);
+    const endDate = new Date(this.endDate);
+    const timeDiff = Math.abs(endDate.getTime() - startDate.getTime());
+    const durationInDays = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+    this.durationInWeeks = Math.ceil(durationInDays / 7);
+  }
+  next();
+});
 
+
+export const Courses = model<TCourse, courseModle>('Courses', courseSchema);
 
