@@ -20,7 +20,6 @@ const getAllCourseFromDB = async (
   const query = buildQuery(queryParams);
   const total = await Courses?.countDocuments(query);
 
-
   const sortCriteria: Record<string, any> = {};
   if (
     queryParams?.sortBy &&
@@ -56,41 +55,6 @@ const getSingleCourseFromDB = async (id: string) => {
   const result = await Courses.findById(id).populate('categoryId');
   return result;
 };
-
-// const updateCourseFromDB = async (
-//   payload: Partial<TCourse>,
-//   courseId: string,
-// ) => {
-//   const { tags, details, ...remainingCourseData } = payload;
-
-//   const modifiedUpdatedData: Record<string, unknown> = {
-//     ...remainingCourseData,
-//   };
-
-//   if (details && Object.keys(details).length) {
-//     for (const [key, value] of Object.entries(details)) {
-//       modifiedUpdatedData[`details.${key}`] = value;
-//     }
-//   }
-
-//   if (tags && tags.length) {
-//     tags.forEach((tag, index) => {
-//       for (const [key, value] of Object.entries(tag)) {
-//         modifiedUpdatedData[`tags.${index}.${key}`] = value;
-//       }
-//     });
-//   }
-
-//   const result = await Courses.findByIdAndUpdate(
-//     courseId,
-//     modifiedUpdatedData,
-//     {
-//       new: true,
-//       runValidators: true,
-//     },
-//   );
-//   return result;
-// };
 
 const updateCourseFromDB = async (
   payload: Partial<TCourse>,
@@ -189,18 +153,10 @@ const getSingleCourseReviewFromDb = async (courseId: string) => {
 };
 
 const getBestCourseFormDb = async () => {
-  const reslut = await Courses.aggregate([
-  ]);
- 
-  
+  const reslut = await Courses.aggregate([]);
+
   return reslut;
 };
-
-
-
-
-
-
 
 export const courseServices = {
   createCourseIntoDB,
