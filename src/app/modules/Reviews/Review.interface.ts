@@ -1,4 +1,4 @@
-import {Types, Model } from 'mongoose';
+import {Types } from 'mongoose';
 
 export type TReview = {
   courseId: Types.ObjectId;
@@ -6,7 +6,4 @@ export type TReview = {
   review: string;
 };
 
-export interface reviewModle extends Model<TReview> {
-  // eslint-disable-next-line no-unused-vars
-  isUserExits(id: string): Promise<TReview | null>;
-}
+
